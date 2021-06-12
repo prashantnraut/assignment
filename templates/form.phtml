@@ -1,0 +1,172 @@
+<!-- page content -->
+<?php 
+$issuedata = isset($editissuedata['issuedata']) ? $editissuedata['issuedata'] : array();
+?>
+<div class="right_col" role="main">
+    <div class="">
+
+      <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2><?php echo isset($formtype) ? $formtype : 'Add'; ?> Issue</small></h2>
+              <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+                <form class="form-horizontal form-label-left" id="addissueform" name="addissueform" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Subject*</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                        <input type="text" class="form-control" id="subject" name="subject" value="" placeholder="Subject" required/>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                          <textarea class="form-control" rows="3" name="description"  id="description"  value="" placeholder="Description" ></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Status*</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                          <select class="form-control" name="status_id" id="status_id" required>
+                          <option value="">select</option>
+                          <?php 
+                            global $status_array;
+                            if(isset($status_array) && is_array($status_array) && count($status_array) > 0 )
+                            {
+                                  foreach($status_array as $skey => $status) { ?>
+                                    <option value="<?php echo $skey;?>" ><?php echo $status;?></option>
+                          <?php } } ?>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-3 col-xs-12 control-label">Priority*
+                        </label>
+
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                    <?php 
+                      global $priority_array;
+
+                      if(isset($priority_array) && is_array($priority_array) && count($priority_array) > 0 )
+                      {
+                            foreach($priority_array as $pkey => $priority) {
+                            ?>
+                              <div class="radio">
+                              <label>
+                                <input type="radio" class="flat priority_id" name="priority_id" value="<?php echo $pkey;?>" > <?php echo $priority;?>
+                              </label>
+                            </div>                             
+                              <?php 
+                            }
+                      } ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-3 col-xs-12 control-label">Affected Regions
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <?php 
+                            global $regions_array;
+                            if(isset($regions_array) && is_array($regions_array) && count($regions_array) > 0 )
+                            {
+                                  foreach($regions_array as $rkey => $region) { ?>
+                            <div class="radio">
+                                <label>
+                                  <input type="checkbox" name="region_id[]" class="flat region_id" value="<?php echo $rkey;?>" > <?php echo $region;?>
+                                </label>
+                            </div>                                  
+                          <?php } } ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Due Date <span class="required">*</span>
+                      </label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="due_date" class="form-control" name="due_date"  value="" placeholder="Due Date" required/>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Assignee*</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                        <select class="form-control" name="assignee_id" id="assignee_id" required>
+                          <!-- <option value="">select</option> -->
+                        <?php                                               
+                            if(isset($editissuedata['assigneelist']) && is_array($editissuedata['assigneelist']) && count($editissuedata['assigneelist']) > 0 )
+                            {
+                                  foreach($editissuedata['assigneelist'] as  $assignee_val) { 
+                                    ?>
+                                    <option value="<?php echo $assignee_val['assignee_id'];?>" ><?php echo $assignee_val['assignee_name'];?></option>
+                          <?php } } ?>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Reviewer*</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                        <select class="form-control" name="reviewer_id" id="reviewer_id" required>
+                          <option value="">select</option>
+                          <?php                                               
+                            if(isset($editissuedata['reviewerlist']) && is_array($editissuedata['reviewerlist']) && count($editissuedata['reviewerlist']) > 0 )
+                            {
+                                  foreach($editissuedata['reviewerlist'] as  $assignee_val) { 
+                                    ?>
+                                    <option value="<?php echo $assignee_val['reviewer_id'];?>" ><?php echo $assignee_val['reviewer_name'];?></option>
+                          <?php } } ?>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Target Version*</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                        <select class="form-control" name="target_version_id" id="target_version_id" required>
+                          <option value="">select</option> 
+                          <?php                                               
+                            if(isset($editissuedata['targetlist']) && is_array($editissuedata['targetlist']) && count($editissuedata['targetlist']) > 0 )
+                            {
+                                  foreach($editissuedata['targetlist'] as  $assignee_val) { 
+                                    ?>
+                                    <option value="<?php echo $assignee_val['target_version_id'];?>" ><?php echo $assignee_val['target_version'];?></option>
+                          <?php } } ?>                          
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Images</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="file" multiple class="form-control" name="image_name" id="image_name"  value="" placeholder="Images" required />
+                        </div>
+                      </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Reviewer Comments</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                          <textarea class="form-control" rows="3" name="reviwer_comments" id="reviwer_comments"  value="" placeholder="Reviwer Comments"></textarea>
+                      </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                      <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                        <button type="button" class="btn btn-primary" id="cancel_btn">Cancel</button>
+                        <button type="reset" class="btn btn-primary" id="reset_btn">Reset</button>
+                        <?php if(isset($formtype) && $formtype == 'Add') { ?>
+                        <button type="button" class="btn btn-success" id="submit_btn">Submit</button>
+                        <?php } else { ?>
+                        <input type="hidden" name='issue_id' id='issue_id' value="">
+                        <button type="button" class="btn btn-success" id="update_btn">Update</button>
+                        <?php }  ?>
+                      </div>
+                    </div>
+                  </form>              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- /page content -->

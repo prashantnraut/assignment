@@ -1,0 +1,14 @@
+<?php
+
+//include header tpl file
+require_once('header.phtml');
+
+//include requested tpl file
+if(isset($content) && $content !=''){
+  include ($content . '.phtml'); 
+}	
+
+//include footer tpl file
+require_once('footer.phtml');
+
+?>

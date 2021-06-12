@@ -1,0 +1,88 @@
+<?php //echo "here";  var_dump($issuelist); exit;?>
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+      <div class="clearfix"></div>
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>Issues</small></h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a href="/add-issue-form" class="close-add"><i class="fa fa-plus"></i> Add</a>
+                <li><a class="close-add delete_issue"><i class="fa fa-remove"></i> Delete</a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+
+              <div class="table-responsive">
+                <table class="table table-striped jambo_table">
+                  <thead>
+                    <tr class="headings">
+                      <th>
+                        <input type="checkbox" id="check-all" class="flat">
+                      </th>
+                      <th class="column-title">Issue Id </th>
+                      <th class="column-title">Subject </th>
+                      <th class="column-title">Status </th>
+                      <th class="column-title">Priority </th>
+                      <th class="column-title">Due Date </th>
+                      <th class="column-title">Assignee </th>
+                      <th class="column-title">Reviewer</th>
+                      <th class="column-title">Target Version</th>
+                      <th class="column-title">Action</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                  <?php 
+                  if(isset($issuelist) && is_array($issuelist) && count($issuelist) > 0 ) { 
+                    
+                    foreach($issuelist as $key=>$val) {
+                      $cls = '';
+                      if( ($key%2) == 0) 
+                      {
+                        $cls = 'even';
+                      }else{
+                        $cls = 'odd';
+                      }
+                    ?>
+
+                    <tr class="<?php echo $cls;?> pointer">
+                      <td class="a-center ">
+                        <input type="checkbox" class="flat issue_id_chk" name="table_records" rel="<?php echo isset($val['issue_id']) ? $val['issue_id']:'';?>">
+                      </td>
+                      <td class=" issue_id" ><?php echo isset($val['issue_id']) ? $val['issue_id']:'';?></td>
+                      <td class=" "><?php echo isset($val['subject']) ? $val['subject']:'';?></td>
+                      <td class=" "><?php echo isset($val['status_title']) ? $val['status_title']:'';?></td>
+                      <td class=" "><?php echo isset($val['priority_title']) ? $val['priority_title']:'';?></td>
+                      <td class=" "><?php echo isset($val['due_date']) ? date ( "d-m-Y H:i:s" , strtotime ( $val['due_date'] )):'';?></td>
+                      <td class=" "><?php echo isset($val['assignee_name']) ? $val['assignee_name']:'';?></td>
+                      <td class=" "><?php echo isset($val['reviewer_name']) ? $val['reviewer_name']:'';?></td>
+                      <td class=" "> <?php echo isset($val['target_version']) ? $val['target_version']:'';?></td>
+                      <td class=" last edit_issue" rel="<?php echo isset($val['issue_id']) ? $val['issue_id']:'';?>"> Edit </td>
+                    </tr>                   
+                    
+                 <?php } 
+                      
+                    } else { ?>
+
+                      <tr class="">
+                        <td class=" "><h3>NO RECORDS FOUND </h3></td>                         
+                      </tr>
+
+                  <?php  } ?>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- /page content -->
